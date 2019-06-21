@@ -34,7 +34,8 @@ public class QuestionsActivity extends AppCompatActivity {
 
     Button button,button2,button3,button4,tapBtn,indicator1Btn,indicator2Btn,indicator3Btn;
     TextView txtView;
-    int nextQtn=0;
+    int nextQtn=-1;
+    Boolean isCorrectAnsClicked=false;
     ArrayList<String> questionsList = new ArrayList<String>();
 
     HashMap<String,ArrayList<String>> answers =new HashMap<String, ArrayList<String>>();
@@ -64,12 +65,8 @@ public class QuestionsActivity extends AppCompatActivity {
         txtView = (TextView) findViewById(R.id.textView);
 
         getAllQuestions();
-
-//        attachClickListener(button);
-//        attachClickListener(button2);
-//        attachClickListener(button3);
         attachClickListener(tapBtn);
-
+        resetAllIndicators();
 
 
 
@@ -78,16 +75,23 @@ public class QuestionsActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    button.setBackgroundColor(Color.GRAY);
 
-                } else if (event.getAction() == KeyEvent.ACTION_UP) {
+                String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
+                String chosenAns = button.getText().toString();
+
+                if(correctAns.contentEquals(chosenAns)){
+                    Log.d("Correct answer","Correct");
                     button.setBackgroundColor(Color.GREEN);
-                    button2.setBackgroundColor(Color.GRAY);
-                    button3.setBackgroundColor(Color.GRAY);
-                    button4.setBackgroundColor(Color.GRAY);
-
+                    isCorrectAnsClicked=true;
                 }
+
+                else{
+                    button.setBackgroundColor(Color.RED);
+                    isCorrectAnsClicked=false;
+                }
+
+                enableDisableAnswers(false);
+                setIndicators();
                 return false;
             }
         });
@@ -97,15 +101,25 @@ public class QuestionsActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    button2.setBackgroundColor(Color.GRAY);
 
-                } else if (event.getAction() == KeyEvent.ACTION_UP) {
+                String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
+                String chosenAns = button2.getText().toString();
+
+                if(correctAns.contentEquals(chosenAns)){
+                    Log.d("Correct answer","Correct");
                     button2.setBackgroundColor(Color.GREEN);
-                    button.setBackgroundColor(Color.GRAY);
-                    button3.setBackgroundColor(Color.GRAY);
-                    button4.setBackgroundColor(Color.GRAY);
+                    isCorrectAnsClicked=true;
+
                 }
+                else{
+                    button2.setBackgroundColor(Color.RED);
+                    isCorrectAnsClicked=false;
+
+
+                }
+
+                enableDisableAnswers(false);
+                setIndicators();
                 return false;
             }
         });
@@ -114,16 +128,24 @@ public class QuestionsActivity extends AppCompatActivity {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    button3.setBackgroundColor(Color.GRAY);
+                String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
+                String chosenAns = button3.getText().toString();
 
-                } else if (event.getAction() == KeyEvent.ACTION_UP) {
+                if(correctAns.contentEquals(chosenAns)){
+                    Log.d("Correct answer","Correct");
                     button3.setBackgroundColor(Color.GREEN);
-                    button2.setBackgroundColor(Color.GRAY);
-                    button.setBackgroundColor(Color.GRAY);
-                    button4.setBackgroundColor(Color.GRAY);
+                    isCorrectAnsClicked=true;
+
                 }
+                else{
+                    button3.setBackgroundColor(Color.RED);
+                    isCorrectAnsClicked=false;
+
+                }
+
+
+                enableDisableAnswers(false);
+                setIndicators();
                 return false;
             }
         });
@@ -132,22 +154,61 @@ public class QuestionsActivity extends AppCompatActivity {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    button4.setBackgroundColor(Color.GRAY);
 
-                } else if (event.getAction() == KeyEvent.ACTION_UP) {
-                    button4.setBackgroundColor(Color.GREEN);
-                    button2.setBackgroundColor(Color.GRAY);
-                    button3.setBackgroundColor(Color.GRAY);
-                    button.setBackgroundColor(Color.GRAY);
-                }
+              String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
+              String chosenAns = button4.getText().toString();
+
+              if(correctAns.contentEquals(chosenAns)){
+                  Log.d("Correct answer","Correct");
+                  button4.setBackgroundColor(Color.GREEN);
+                  isCorrectAnsClicked=true;
+              }
+              else{
+                  button4.setBackgroundColor(Color.RED);
+                  isCorrectAnsClicked=false;
+              }
+
+                enableDisableAnswers(false);
+                setIndicators();
                 return false;
             }
         });
 
 
 
+
+    }
+
+    private void resetAllIndicators(){
+
+        indicator1Btn.setBackgroundColor(Color.TRANSPARENT);
+        indicator2Btn.setBackgroundColor(Color.TRANSPARENT);
+        indicator3Btn.setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    private void setIndicatorGreen(){
+        if (nextQtn==0){
+            indicator1Btn.setBackgroundColor(Color.GREEN);
+        }
+        else if (nextQtn==1){
+            indicator2Btn.setBackgroundColor(Color.GREEN);
+        }
+        else if (nextQtn==2){
+            indicator3Btn.setBackgroundColor(Color.GREEN);
+        }
+
+    }
+
+    private void setIndicatorRed(){
+        if (nextQtn==0){
+            indicator1Btn.setBackgroundColor(Color.RED);
+        }
+        else if (nextQtn==1){
+            indicator2Btn.setBackgroundColor(Color.RED);
+        }
+        else if (nextQtn==2){
+            indicator3Btn.setBackgroundColor(Color.RED);
+        }
 
     }
 
@@ -162,7 +223,14 @@ public class QuestionsActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void enableDisableAnswers(Boolean isEnabled)
+    {
+        button.setEnabled(isEnabled);
+        button2.setEnabled(isEnabled);
+        button3.setEnabled(isEnabled);
+        button4.setEnabled(isEnabled);
 
     }
 
@@ -240,6 +308,8 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     private void ChangeNextQuestion(){
+
+        enableDisableAnswers(true);
         nextQtn++;
 
         Random r = new Random();
@@ -279,20 +349,8 @@ public class QuestionsActivity extends AppCompatActivity {
             button.setText(wrongAns.get(2).toString());
         }
 
-//        switch (i1){
-//            case 0:
-//                button.setText(mylist.get(nextQtn).get("correct_answer"));
-//                break;
-//            case 1:
-//                button2.setText(mylist.get(nextQtn).get("correct_answer"));
-//                break;
-//
-//        }
-
-        //resetAllButtonsToGray();
-
         if(nextQtn>=mylist.size()){
-            nextQtn=0;
+            nextQtn=-1;
         }
     }
 
@@ -307,15 +365,21 @@ public class QuestionsActivity extends AppCompatActivity {
 
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), btn.getText(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), btn.getText(), Toast.LENGTH_SHORT).show();
+
                 ChangeNextQuestion();
-                indicator1Btn.setBackgroundColor(Color.GREEN);
-                indicator2Btn.setBackgroundColor(Color.RED);
-                indicator3Btn.setBackgroundColor(Color.RED);
                 resetAllButtonsToGray();
             }
         });
     }
 
 
+    private void setIndicators(){
+        if(isCorrectAnsClicked==true){
+            setIndicatorGreen();
+        }
+        else{
+            setIndicatorRed();
+        }
+    }
 }
