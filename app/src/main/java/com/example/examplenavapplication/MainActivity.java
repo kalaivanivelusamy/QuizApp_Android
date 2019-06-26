@@ -1,6 +1,7 @@
 package com.example.examplenavapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,48 +10,108 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     Button button,buttonCat2,buttonCat3;
+
+    ArrayList<String> categoriesList = new ArrayList<String>();
+    HashMap<Integer,String>categoryNames = new HashMap<Integer, String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Life cycle events", "onCreate: ");
         setContentView(R.layout.activity_main);
+
+        categoryNames.put(9,"General Knowledge");
+        categoryNames.put(10,"Entertainment:Books");
+        categoryNames.put(11,"Entertainment:Film");
+        categoryNames.put(12,"Entertainment:Music");
+        categoryNames.put(13,"Entertainment:Musicals & Theatre");
+        categoryNames.put(14,"Entertainment:Television");
+        categoryNames.put(15,"Entertainment:Video Games");
+        categoryNames.put(16,"Entertainment:Board Games");
+        categoryNames.put(17,"Science & Nature");
+        categoryNames.put(18,"Science : Computers");
+        categoryNames.put(19,"Science : Mathematics");
+        categoryNames.put(20,"Mythology");
+        categoryNames.put(21,"Sports");
+        categoryNames.put(22,"Geography");
+        categoryNames.put(23,"History");
+        categoryNames.put(24,"Politics");
+        categoryNames.put(25,"Art");
+        categoryNames.put(26,"Celebreties");
+        categoryNames.put(27,"Animals");
+        categoryNames.put(28,"Vehicles");
+        categoryNames.put(29,"Entertainment:Comics");
+        categoryNames.put(30,"Science : Gadgets");
+        categoryNames.put(31,"Entertainment : Cartoon & Animations");
+        categoryNames.put(32,"Entertainment : Japanese Anima & Manga");
+
+        for (int i=0;i<31;i++){
+            if(i<9){
+            categoriesList.add("");
+            }
+            else
+            {
+                categoriesList.add(categoryNames.get(new Integer(i)));
+                Log.d("category List",categoriesList.get(i));
+            }
+        }
+
+
+
 
         button = (Button) findViewById(R.id.buttonCat1);
         buttonCat2 = (Button) findViewById(R.id.buttonCat2);
         buttonCat3 = (Button) findViewById(R.id.buttonCat3);
 
 
+
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,QuestionsActivity.class);
+                Intent intent = new Intent(MainActivity.this,CategoryLoadingScreen.class);
+                intent.putExtra("categoryId",button.getTag().toString());
+                intent.putExtra("categoryName",button.getText());
+
                 startActivity(intent);
 
-                Toast.makeText(getApplicationContext(), "Button category1 Clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Button category1 Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
         buttonCat2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), buttonCat2.getText(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this,QuestionsActivity.class);
+                //Toast.makeText(getApplicationContext(), buttonCat2.getText(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this,CategoryLoadingScreen.class);
+                intent.putExtra("categoryId",buttonCat2.getTag().toString());
+                intent.putExtra("categoryName",buttonCat2.getText());
+
                 startActivity(intent);
             }
         });
 
         buttonCat3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), buttonCat3.getText()+ " Clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), buttonCat3.getText()+ " Clicked", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(MainActivity.this, QuestionsActivity.class);
+                Intent intent = new Intent(MainActivity.this, CategoryLoadingScreen.class);
+                intent.putExtra("categoryId",buttonCat3.getTag().toString());
+                intent.putExtra("categoryName",buttonCat3.getText());
+
+
                 startActivity(intent);
             }
         });
@@ -59,17 +120,35 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setTitle(getString(R.string.title_bar));
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
+        showRandomCategories();
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
+
+    }
+
+
+    private void showRandomCategories(){
+
+       // Random r = new Random();
+        int i1 = getRandom();
+        int i2 =getRandom();
+        int i3 =getRandom();
+
+        button.setText(categoriesList.get(i1));
+        button.setTag(new Integer(i1));
+        buttonCat2.setText(categoriesList.get(i2));
+        buttonCat2.setTag(new Integer(i2));
+        buttonCat3.setText(categoriesList.get(i3));
+        buttonCat3.setTag(new Integer(i3));
+
+    }
+
+    private int getRandom(){
+        Random r = new Random();
+        return r.nextInt(31 - 9) + 9;
     }
 
     @Override
@@ -81,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected  void  onResume(){
         super.onResume();
+        showRandomCategories();
         Log.d("Life cycle events","In Resume");
     }
 

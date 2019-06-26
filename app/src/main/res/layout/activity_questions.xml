@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     tools:context=".QuestionsActivity">
 
     <LinearLayout
@@ -13,39 +14,36 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/indicator1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:minWidth="40dp"
-            android:minHeight="40dp" />
+        <!--<ProgressBar-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/progressBar_cyclic"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:minHeight="40dp"-->
+            <!--android:minWidth="40dp" />-->
 
-        <Button
-            android:id="@+id/indicator2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:minWidth="40dp"
-            android:minHeight="40dp" />
+        <!--<Button-->
+            <!--android:id="@+id/indicator1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@android:color/background_light"-->
+            <!--android:minWidth="5dp"-->
+            <!--android:minHeight="5dp" />-->
 
-        <Button
-            android:id="@+id/indicator3"
-            android:layout_width="wrap_content"
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/background_light"
-            android:minWidth="40dp"
-            android:minHeight="40dp" />
+            android:id="@+id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:max="100"
+            />
+
     </LinearLayout>
 
     <TextView

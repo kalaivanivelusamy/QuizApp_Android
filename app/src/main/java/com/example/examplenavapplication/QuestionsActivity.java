@@ -1,14 +1,22 @@
 package com.example.examplenavapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
@@ -19,6 +27,9 @@ import java.util.ArrayList;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 import android.util.JsonReader;
+import android.app.AlertDialog.Builder;
+
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,19 +41,23 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.os.*;
+import java.net.URLDecoder;
+
 public class QuestionsActivity extends AppCompatActivity {
 
     Button button,button2,button3,button4,tapBtn,indicator1Btn,indicator2Btn,indicator3Btn;
     TextView txtView;
-    int nextQtn=-1;
+    ProgressBar pgBar,timeBar;
+    int nextQtn=-1,correctAnsCount=0;
+    Object correctAnsBtnTag=0;
     Boolean isCorrectAnsClicked=false;
     ArrayList<String> questionsList = new ArrayList<String>();
-
-    HashMap<String,ArrayList<String>> answers =new HashMap<String, ArrayList<String>>();
-   // HashMap<String,String> qtnAndAnswer = new HashMap<String, String>();
+    String categoryId="10";
+    HashMap<String,ArrayList<String>> inCorrectanswers =new HashMap<String, ArrayList<String>>();
     ArrayList<HashMap<String, String>> mylist = new ArrayList<>();
-
-
+    int progressStatus = 0;
+    LinearLayout layout;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +66,50 @@ public class QuestionsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_questions);
 
+        layout = (LinearLayout)findViewById(R.id.layout);
+
         button = (Button) findViewById(R.id.ansBtn1);
         button2 = (Button) findViewById(R.id.ansBtn2);
         button3 = (Button) findViewById(R.id.ansBtn3);
         button4 = (Button) findViewById(R.id.ansBtn4);
 
-        indicator1Btn = (Button) findViewById(R.id.indicator1);
-        indicator2Btn = (Button) findViewById(R.id.indicator2);
-        indicator3Btn = (Button) findViewById(R.id.indicator3);
+//        indicator1Btn = (Button) findViewById(R.id.indicator1);
+//        indicator2Btn = (Button) findViewById(R.id.indicator2);
+//        indicator3Btn = (Button) findViewById(R.id.indicator3);
 
         tapBtn = (Button) findViewById(R.id.buttonTap);
 
         txtView = (TextView) findViewById(R.id.textView);
 
-        getAllQuestions();
+//        Toolbar toolbar = findViewById(R.id.my_toolbar);
+//        toolbar.setTitle(getString(R.string.title_bar));
+//        setSupportActionBar(toolbar);
+
+        pgBar = (ProgressBar) findViewById(R.id.progressBar);
+
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            categoryId = extras.getString("categoryId");
+            mylist = (ArrayList<HashMap<String, String>>) getIntent().getExtras().getSerializable("qtnsList");
+            inCorrectanswers=(HashMap<String,ArrayList<String>>) getIntent().getExtras().getSerializable("incorrectAns");
+
+        }
+
+        for (int i=0;i<inCorrectanswers.size();i++){
+           ArrayList<String> wrongAns= inCorrectanswers.get("incorrect_answers"+nextQtn);
+            Log.d("wrong ans list", String.valueOf(inCorrectanswers.size()));
+        }
+
+
+
+
+       // getAllQuestions();
+        ChangeNextQuestion();
         attachClickListener(tapBtn);
-        resetAllIndicators();
+       // resetAllIndicators();
 
-
+//
 
         button.setOnTouchListener(new View.OnTouchListener() {
 
@@ -88,7 +129,10 @@ public class QuestionsActivity extends AppCompatActivity {
                 else{
                     button.setBackgroundColor(Color.RED);
                     isCorrectAnsClicked=false;
+                    setCorrectAnsBtn();
                 }
+
+
 
                 enableDisableAnswers(false);
                 setIndicators();
@@ -114,7 +158,7 @@ public class QuestionsActivity extends AppCompatActivity {
                 else{
                     button2.setBackgroundColor(Color.RED);
                     isCorrectAnsClicked=false;
-
+                    setCorrectAnsBtn();
 
                 }
 
@@ -140,6 +184,7 @@ public class QuestionsActivity extends AppCompatActivity {
                 else{
                     button3.setBackgroundColor(Color.RED);
                     isCorrectAnsClicked=false;
+                    setCorrectAnsBtn();
 
                 }
 
@@ -166,6 +211,7 @@ public class QuestionsActivity extends AppCompatActivity {
               else{
                   button4.setBackgroundColor(Color.RED);
                   isCorrectAnsClicked=false;
+                  setCorrectAnsBtn();
               }
 
                 enableDisableAnswers(false);
@@ -178,6 +224,82 @@ public class QuestionsActivity extends AppCompatActivity {
 
 
     }
+
+
+    private void showTimeProgress(){
+
+        Log.d("timer",Integer.valueOf(progressStatus).toString());
+         final Handler handler = new Handler();
+
+        new Thread(new Runnable() {
+
+            public void run() {
+                if(progressStatus>=100){
+                    Log.d("inside 100","100");
+                    enableDisableAnswers(false);
+                    timeOut();
+                }
+                while (progressStatus < 100) {
+                    progressStatus += 1.5;
+                    // Update the progress bar and display the
+                    //current value in the text view
+                    handler.post(new Runnable() {
+                        public void run() {
+                            pgBar.setProgress(progressStatus);
+                        }
+                    });
+                    try {
+                        // Sleep for 200 milliseconds.
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                if(progressStatus>=100){
+                    timeOut();
+                    // enableDisableAnswers(false);
+                }
+
+            }
+        }).start();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(QuestionsActivity.this);
+            alertDialog.setTitle("Game over");
+            alertDialog.setMessage("Do you want to play again?");
+
+            alertDialog.setPositiveButton("Play", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                   reStartGame();
+                }
+            });
+
+            alertDialog.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    quitTheGame();
+                    //Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            alertDialog.show();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void quitTheGame(){
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
     private void resetAllIndicators(){
 
@@ -212,9 +334,31 @@ public class QuestionsActivity extends AppCompatActivity {
 
     }
 
+    private void setCorrectAnsBtn(){
+
+
+
+
+        if(Integer.parseInt(correctAnsBtnTag.toString())==0){
+            button.setBackgroundColor(Color.GREEN);
+        }
+        if(Integer.parseInt(correctAnsBtnTag.toString())==1){
+            button2.setBackgroundColor(Color.GREEN);
+        }
+        if(Integer.parseInt(correctAnsBtnTag.toString())==2){
+            button3.setBackgroundColor(Color.GREEN);
+        }
+        if(Integer.parseInt(correctAnsBtnTag.toString())==3){
+            button4.setBackgroundColor(Color.GREEN);
+        }
+
+
+    }
+
 
 
     private void getAllQuestions() {
+        //pgBar.setVisibility(View.VISIBLE);
 
         AsyncTask.execute(new Runnable() {
             @Override
@@ -242,7 +386,7 @@ public class QuestionsActivity extends AppCompatActivity {
         // Create URL
         try {
            // URL githubEndpoint = new URL("https://api.github.com/");
-           URL qtnDB= new URL("https://opentdb.com/api.php?amount=10&category=10&difficulty=easy&type=multiple");
+           URL qtnDB= new URL("https://opentdb.com/api.php?amount=10&category="+categoryId+"&difficulty=easy&type=multiple");
 
             // Create connection
             HttpsURLConnection myConnection =
@@ -282,14 +426,12 @@ public class QuestionsActivity extends AppCompatActivity {
                         }
                     }
 
-                    answers.put("incorrect_answers"+ik,incorrectArr);
+                    inCorrectanswers.put("incorrect_answers"+ik,incorrectArr);
                     HashMap<String,String> qtnAndAnswer = new HashMap<String, String>();
 
                     qtnAndAnswer.put("question",details.getString("question"));
                     qtnAndAnswer.put("correct_answer",details.getString("correct_answer"));
                     mylist.add(qtnAndAnswer);
-
-
 
                     ik++;
                 }
@@ -305,11 +447,26 @@ public class QuestionsActivity extends AppCompatActivity {
         }
 
 
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                progressStatus=0;
+                showTimeProgress();
+
+                ChangeNextQuestion();
+
+            }
+        });
+
+
     }
 
     private void ChangeNextQuestion(){
 
         enableDisableAnswers(true);
+        layout.setAlpha(1.0f);
+        tapBtn.setEnabled(true);
         nextQtn++;
 
         Random r = new Random();
@@ -317,10 +474,14 @@ public class QuestionsActivity extends AppCompatActivity {
 
         Log.d("random number",String.valueOf(i1));
         txtView.setText(mylist.get(nextQtn).get("question"));
+        ArrayList wrongAns = inCorrectanswers.get("incorrect_answers"+nextQtn);
+        Log.d("Wrong ans",wrongAns.get(0).toString());
 
         if(i1==0){
             button.setText(mylist.get(nextQtn).get("correct_answer").toString());
-            ArrayList wrongAns = answers.get("incorrect_answers"+nextQtn);
+            correctAnsBtnTag = button.getTag();
+
+
             button2.setText(wrongAns.get(0).toString());
             button3.setText(wrongAns.get(1).toString());
             button4.setText(wrongAns.get(2).toString());
@@ -328,7 +489,8 @@ public class QuestionsActivity extends AppCompatActivity {
 
         if(i1==1){
             button2.setText(mylist.get(nextQtn).get("correct_answer").toString());
-            ArrayList wrongAns = answers.get("incorrect_answers"+nextQtn);
+            correctAnsBtnTag = button2.getTag();
+
             button.setText(wrongAns.get(0).toString());
             button3.setText(wrongAns.get(1).toString());
             button4.setText(wrongAns.get(2).toString());
@@ -336,22 +498,29 @@ public class QuestionsActivity extends AppCompatActivity {
 
         if(i1==2){
             button3.setText(mylist.get(nextQtn).get("correct_answer").toString());
-            ArrayList wrongAns = answers.get("incorrect_answers"+nextQtn);
+            correctAnsBtnTag = button3.getTag();
+
             button2.setText(wrongAns.get(0).toString());
             button.setText(wrongAns.get(1).toString());
             button4.setText(wrongAns.get(2).toString());
         }
         if(i1==3){
             button4.setText(mylist.get(nextQtn).get("correct_answer").toString());
-            ArrayList wrongAns = answers.get("incorrect_answers"+nextQtn);
+            correctAnsBtnTag = button4.getTag();
+
             button2.setText(wrongAns.get(0).toString());
             button3.setText(wrongAns.get(1).toString());
             button.setText(wrongAns.get(2).toString());
         }
 
-        if(nextQtn>=mylist.size()){
-            nextQtn=-1;
+        if(nextQtn>1){
+            //nextQtn=-1;
+            tapBtn.setEnabled(false);
         }
+
+
+
+
     }
 
     private void resetAllButtonsToGray(){
@@ -365,9 +534,11 @@ public class QuestionsActivity extends AppCompatActivity {
 
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               // Toast.makeText(getApplicationContext(), btn.getText(), Toast.LENGTH_SHORT).show();
-
                 ChangeNextQuestion();
+                progressStatus=0;
+                showTimeProgress();
+                pgBar.setVisibility(View.VISIBLE);
+
                 resetAllButtonsToGray();
             }
         });
@@ -375,11 +546,83 @@ public class QuestionsActivity extends AppCompatActivity {
 
 
     private void setIndicators(){
+
+//        progressStatus=100;
+//        showTimeProgress();
+        pgBar.setVisibility(View.GONE);
+
         if(isCorrectAnsClicked==true){
-            setIndicatorGreen();
+           // setIndicatorGreen();
+            correctAnsCount++;
         }
         else{
-            setIndicatorRed();
+           // setIndicatorRed();
         }
+
+        if(nextQtn>1){
+            showScore();
+        }
+    }
+
+    private void showScore(){
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(QuestionsActivity.this);
+        alertDialog.setTitle("Score");
+        alertDialog.setMessage("You have scored: "+correctAnsCount);
+
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.show();
+
+    }
+
+    private void reStartGame(){
+        Intent intent = new Intent(QuestionsActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+    private void timeOut(){
+
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                enableDisableAnswers(false);
+                layout.setAlpha(0.5f);
+                tapBtn.setEnabled(true);
+                showCorrectAnswer();
+
+            }
+        });
+
+
+//        for ( int i = 0; i < layout.getChildCount();  i++ ){
+//            View view = layout.getChildAt(i);
+//            view.setEnabled(false); // Or whatever you want to do with the view.
+//        }
+
+    }
+
+    private void showCorrectAnswer(){
+
+        if(Integer.parseInt(correctAnsBtnTag.toString())==0){
+            button.setBackgroundColor(Color.GREEN);
+        }
+        if(Integer.parseInt(correctAnsBtnTag.toString())==1){
+            button2.setBackgroundColor(Color.GREEN);
+        }
+        if(Integer.parseInt(correctAnsBtnTag.toString())==2){
+            button3.setBackgroundColor(Color.GREEN);
+        }
+        if(Integer.parseInt(correctAnsBtnTag.toString())==3){
+            button4.setBackgroundColor(Color.GREEN);
+        }
+
     }
 }
