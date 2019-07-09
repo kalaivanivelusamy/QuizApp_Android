@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import com.google.android.gms.ads.MobileAds;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,24 +42,24 @@ public class MainActivity extends AppCompatActivity {
         categoryNames.put(10,"Entertainment:Books");
         categoryNames.put(11,"Entertainment:Film");
         categoryNames.put(12,"Entertainment:Music");
-        categoryNames.put(13,"Entertainment:Musicals & Theatre");
+        categoryNames.put(13,"Entertainment:Musicals & Theatre"); //not available
         categoryNames.put(14,"Entertainment:Television");
         categoryNames.put(15,"Entertainment:Video Games");
-        categoryNames.put(16,"Entertainment:Board Games");
+        categoryNames.put(16,"Entertainment:Board Games");//not available
         categoryNames.put(17,"Science & Nature");
         categoryNames.put(18,"Science : Computers");
-        categoryNames.put(19,"Science : Mathematics");
+        categoryNames.put(19,"Science : Mathematics");//not available
         categoryNames.put(20,"Mythology");
         categoryNames.put(21,"Sports");
         categoryNames.put(22,"Geography");
         categoryNames.put(23,"History");
-        categoryNames.put(24,"Politics");
-        categoryNames.put(25,"Art");
-        categoryNames.put(26,"Celebreties");
-        categoryNames.put(27,"Animals");
-        categoryNames.put(28,"Vehicles");
-        categoryNames.put(29,"Entertainment:Comics");
-        categoryNames.put(30,"Science : Gadgets");
+        categoryNames.put(24,"Politics");//not available
+        categoryNames.put(25,"Art");//not available
+        categoryNames.put(26,"Celebrities");//not available
+        categoryNames.put(27,"Animals");//not available
+        categoryNames.put(28,"Vehicles");//not available
+        categoryNames.put(29,"Entertainment:Comics");//not available
+        categoryNames.put(30,"Science : Gadgets");//not available
         categoryNames.put(31,"Entertainment : Cartoon & Animations");
         categoryNames.put(32,"Entertainment : Japanese Anima & Manga");
 
@@ -82,37 +86,21 @@ public class MainActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,CategoryLoadingScreen.class);
-                intent.putExtra("categoryId",button.getTag().toString());
-                intent.putExtra("categoryName",button.getText());
+                highlightSelectedButton(button);
 
-                startActivity(intent);
-
-                //Toast.makeText(getApplicationContext(), "Button category1 Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
         buttonCat2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), buttonCat2.getText(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this,CategoryLoadingScreen.class);
-                intent.putExtra("categoryId",buttonCat2.getTag().toString());
-                intent.putExtra("categoryName",buttonCat2.getText());
+                highlightSelectedButton(buttonCat2);
 
-                startActivity(intent);
             }
         });
 
         buttonCat3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), buttonCat3.getText()+ " Clicked", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(MainActivity.this, CategoryLoadingScreen.class);
-                intent.putExtra("categoryId",buttonCat3.getTag().toString());
-                intent.putExtra("categoryName",buttonCat3.getText());
-
-
-                startActivity(intent);
+                highlightSelectedButton(buttonCat3);
             }
         });
 
@@ -126,9 +114,27 @@ public class MainActivity extends AppCompatActivity {
         showRandomCategories();
 
 
+       // MobileAds.initialize(this,getString(R.string.admob_app_id));
 
     }
 
+
+    private void highlightSelectedButton(final Button btn){
+
+        btn.setBackgroundColor(Color.GREEN);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, CategoryLoadingScreen.class);
+                intent.putExtra("categoryId",btn.getTag().toString());
+                intent.putExtra("categoryName",btn.getText());
+
+                startActivity(intent);
+            }
+        }, 500);
+
+    }
 
     private void showRandomCategories(){
 
@@ -137,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
         int i2 =getRandom();
         int i3 =getRandom();
 
+        i1=reassignCategories(i1);
+        i2=reassignCategories(i2);
+        i3=reassignCategories(i3);
+
         button.setText(categoriesList.get(i1));
         button.setTag(new Integer(i1));
         buttonCat2.setText(categoriesList.get(i2));
@@ -144,6 +154,32 @@ public class MainActivity extends AppCompatActivity {
         buttonCat3.setText(categoriesList.get(i3));
         buttonCat3.setTag(new Integer(i3));
 
+    }
+
+    private int reassignCategories(int id){
+        Random r = new Random();
+
+        switch (id){
+            case 24-27:
+                Log.d("ignored id",Integer.valueOf(id).toString());
+                return 32;
+            case 28-30:
+                Log.d("ignored id",Integer.valueOf(id).toString());
+                return 31;
+            case 13:
+                Log.d("ignored id",Integer.valueOf(id).toString());
+                return 14;
+            case 16:
+                Log.d("ignored id",Integer.valueOf(id).toString());
+                return 15;
+            case 19:
+                Log.d("ignored id",Integer.valueOf(id).toString());
+
+                return 18;
+                default:
+                    return id;
+
+        }
     }
 
     private int getRandom(){

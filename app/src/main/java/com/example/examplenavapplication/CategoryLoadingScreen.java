@@ -67,6 +67,21 @@ public class CategoryLoadingScreen extends AppCompatActivity {
 
     }
 
+    //To prevent default back button pressed
+    @Override
+    public void onBackPressed() {
+
+    }
+
+//    @Override
+//    protected  void  onResume(){
+//        super.onResume();
+//        Intent intent = new Intent(CategoryLoadingScreen.this,MainActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
+
+
     private void showTimeProgress(){
 
         Log.d("timer",Integer.valueOf(progressStatus).toString());
@@ -110,7 +125,7 @@ public class CategoryLoadingScreen extends AppCompatActivity {
         // Create URL
         try {
             // URL githubEndpoint = new URL("https://api.github.com/");
-            URL qtnDB= new URL("https://opentdb.com/api.php?amount=10&category="+categoryId+"&difficulty=easy&type=multiple");
+            URL qtnDB= new URL("https://opentdb.com/api.php?amount=20&category="+categoryId+"&difficulty=easy&type=multiple");
 
             // Create connection
             HttpsURLConnection myConnection =
@@ -189,6 +204,7 @@ public class CategoryLoadingScreen extends AppCompatActivity {
     }
 
     private void loadQuesitonsScreen(){
+
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

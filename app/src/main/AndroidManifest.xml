@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.ads.ca-app-pub-6507171422391659~4678389761"
+            android:value="true"/>
+
         <activity android:name=".CategoryLoadingScreen"></activity>
         <activity
             android:name=".CategoryLoading"
@@ -27,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
