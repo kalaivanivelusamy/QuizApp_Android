@@ -1,5 +1,7 @@
 package com.example.examplenavapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -155,6 +158,21 @@ public class MainActivity extends AppCompatActivity {
         buttonCat3.setTag(new Integer(i3));
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            quitTheGame();
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
+    private void quitTheGame(){
+        this.finishAffinity();
+    }
+
 
     private int reassignCategories(int id){
         Random r = new Random();

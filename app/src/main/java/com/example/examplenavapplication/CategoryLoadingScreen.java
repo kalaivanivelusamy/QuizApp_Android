@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.EditText;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +35,10 @@ public class CategoryLoadingScreen extends AppCompatActivity {
     String categoryId="10";
     HashMap<String,ArrayList<String>> answers =new HashMap<String, ArrayList<String>>();
     ArrayList<HashMap<String, String>> mylist = new ArrayList<>();
+    boolean isCancelled=false;
+    private AsyncTask someTask;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,29 +61,55 @@ public class CategoryLoadingScreen extends AppCompatActivity {
     }
 
     private void getAllQuestions() {
-        //pgBar.setVisibility(View.VISIBLE);
 
-        AsyncTask.execute(new Runnable() {
+
+        someTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                return null;
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+                isCancelled = true;
+                Log.d("in cancel","on cancel");
+            }
+        };
+
+        someTask.execute(new Runnable() {
             @Override
             public void run() {
                 getJSONQuestions();
             }
         });
 
+
     }
 
-    //To prevent default back button pressed
+
     @Override
-    public void onBackPressed() {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            quitTheGame();
+        }
+        return super.onKeyDown(keyCode, event);
 
     }
 
+    private void quitTheGame(){
+
+        someTask.cancel(true);
+
+      this.finishAffinity();
+    }
+
+
+    //    //To prevent default back button pressed
 //    @Override
-//    protected  void  onResume(){
-//        super.onResume();
-//        Intent intent = new Intent(CategoryLoadingScreen.this,MainActivity.class);
-//        startActivity(intent);
-//        finish();
+//    public void onBackPressed() {
+//
 //    }
 
 
@@ -185,22 +216,21 @@ public class CategoryLoadingScreen extends AppCompatActivity {
 
         }
 
-
+    if(!isCancelled) {
         runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
-                progressStatus=100;
+                progressStatus = 100;
                 pgBar.setProgress(progressStatus);
 
                 showTimeProgress();
                 loadQuesitonsScreen();
 
-
             }
         });
 
-
+    }
     }
 
     private void loadQuesitonsScreen(){

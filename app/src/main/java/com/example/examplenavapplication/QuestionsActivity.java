@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.Layout;
 import android.util.Log;
@@ -23,6 +24,9 @@ import android.view.MotionEvent;
 import android.view.KeyEvent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
@@ -65,7 +69,7 @@ public class QuestionsActivity extends AppCompatActivity {
     LinearLayout layout;
     private AdView mAdView;
     AdRequest adRequest;
-
+    String deviceId;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,6 +234,7 @@ public class QuestionsActivity extends AppCompatActivity {
 
 
         showAd();
+
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -256,7 +261,7 @@ public class QuestionsActivity extends AppCompatActivity {
             }
         });
 
-        mAdView.loadAd(adRequest);
+       // mAdView.loadAd(adRequest);
 
 
     }
@@ -330,7 +335,6 @@ public class QuestionsActivity extends AppCompatActivity {
             alertDialog.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     quitTheGame();
-                    //Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -341,12 +345,7 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     private void quitTheGame(){
-
-        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-       // homeIntent.addCategory( Intent.CATEGORY_HOME );
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(homeIntent);
-        finish();
+        this.finishAffinity();
     }
 
 
@@ -384,8 +383,6 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     private void setCorrectAnsBtn(){
-
-
 
 
         if(Integer.parseInt(correctAnsBtnTag.toString())==0){
@@ -523,14 +520,18 @@ public class QuestionsActivity extends AppCompatActivity {
         int i1 = r.nextInt(4 - 0) + 0;
 
         Log.d("random number",String.valueOf(i1));
-        txtView.setText(mylist.get(nextQtn).get("question"));
+        String qtn = mylist.get(nextQtn).get("question").toString();
+        txtView.setText(Html.fromHtml(qtn));
+       // txtView.setText(mylist.get(nextQtn).get("question"));
         ArrayList wrongAns = inCorrectanswers.get("incorrect_answers"+nextQtn);
         Log.d("Wrong ans",wrongAns.get(0).toString());
 
         if(i1==0){
-            button.setText(mylist.get(nextQtn).get("correct_answer").toString());
+           // button.setText(mylist.get(nextQtn).get("correct_answer").toString());
+            String ans = mylist.get(nextQtn).get("correct_answer").toString();
             correctAnsBtnTag = button.getTag();
 
+            button.setText(Html.fromHtml(ans));
 
             button2.setText(wrongAns.get(0).toString());
             button3.setText(wrongAns.get(1).toString());
@@ -538,8 +539,11 @@ public class QuestionsActivity extends AppCompatActivity {
         }
 
         if(i1==1){
-            button2.setText(mylist.get(nextQtn).get("correct_answer").toString());
+            //button2.setText(mylist.get(nextQtn).get("correct_answer").toString());
+            String ans = mylist.get(nextQtn).get("correct_answer").toString();
+
             correctAnsBtnTag = button2.getTag();
+            button2.setText(Html.fromHtml(ans));
 
             button.setText(wrongAns.get(0).toString());
             button3.setText(wrongAns.get(1).toString());
@@ -547,21 +551,30 @@ public class QuestionsActivity extends AppCompatActivity {
         }
 
         if(i1==2){
-            button3.setText(mylist.get(nextQtn).get("correct_answer").toString());
+           // button3.setText(mylist.get(nextQtn).get("correct_answer").toString());
             correctAnsBtnTag = button3.getTag();
+            String ans = mylist.get(nextQtn).get("correct_answer").toString();
+            button3.setText(Html.fromHtml(ans));
 
             button2.setText(wrongAns.get(0).toString());
             button.setText(wrongAns.get(1).toString());
             button4.setText(wrongAns.get(2).toString());
         }
         if(i1==3){
-            button4.setText(mylist.get(nextQtn).get("correct_answer").toString());
+           // button4.setText(mylist.get(nextQtn).get("correct_answer").toString());
             correctAnsBtnTag = button4.getTag();
+            String ans = mylist.get(nextQtn).get("correct_answer").toString();
+            button4.setText(Html.fromHtml(ans));
 
             button2.setText(wrongAns.get(0).toString());
             button3.setText(wrongAns.get(1).toString());
             button.setText(wrongAns.get(2).toString());
         }
+
+        button.setTextColor(Color.BLACK);
+        button2.setTextColor(Color.BLACK);
+        button3.setTextColor(Color.BLACK);
+        button4.setTextColor(Color.BLACK);
 
         if(totalQtnsShown>2){
             //nextQtn=-1;
@@ -674,17 +687,52 @@ public class QuestionsActivity extends AppCompatActivity {
 
     }
 
+
+    private void getDeviceId(){
+
+        String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+         deviceId = md5(android_id).toUpperCase();
+        Log.i("device id=",deviceId);
+
+
+    }
+
+    public static final String md5(final String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest
+                    .getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++) {
+                String h = Integer.toHexString(0xFF & messageDigest[i]);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            Log.d("Error",e.toString());
+        }
+        return "";
+    }
+
     private void  showAd() {
 
         mAdView = (AdView) findViewById(R.id.adView);
-
-
+        getDeviceId();
 
         adRequest = new AdRequest.Builder()
                // .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 // Check the LogCat to get your test device ID
-                .addTestDevice("BE84A62302821162F7C251AECF1AB3FC")
+               // .addTestDevice("BE84A62302821162F7C251AECF1AB3FC")
+                .addTestDevice(deviceId)
                 .build();
+        mAdView.loadAd(adRequest);
 
 
 //        for(int i=0;i<1000;i++) {
