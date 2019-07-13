@@ -47,6 +47,8 @@ import java.util.Map;
 
 import android.os.*;
 import java.net.URLDecoder;
+import java.util.concurrent.Delayed;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -345,6 +347,7 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     private void quitTheGame(){
+
         this.finishAffinity();
     }
 
@@ -403,18 +406,6 @@ public class QuestionsActivity extends AppCompatActivity {
 
 
 
-//    private void getAllQuestions() {
-//        //pgBar.setVisibility(View.VISIBLE);
-//
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//               getJSONQuestions();
-//            }
-//        });
-//
-//    }
-
     private void enableDisableAnswers(Boolean isEnabled)
     {
         button.setEnabled(isEnabled);
@@ -424,89 +415,7 @@ public class QuestionsActivity extends AppCompatActivity {
 
     }
 
-//    private void getJSONQuestions(){
-//
-//        String result;
-//        String inputLine;
-//
-//        // Create URL
-//        try {
-//           // URL githubEndpoint = new URL("https://api.github.com/");
-//           URL qtnDB= new URL("https://opentdb.com/api.php?amount=10&category="+categoryId+"&difficulty=easy&type=multiple");
-//
-//            // Create connection
-//            HttpsURLConnection myConnection =
-//                    (HttpsURLConnection) qtnDB.openConnection();
-//            if (myConnection.getResponseCode() == 200) {
-//
-//                InputStreamReader streamReader = new
-//                        InputStreamReader(myConnection.getInputStream());
-//
-//                //Create a new buffered reader and String Builder
-//                BufferedReader reader = new BufferedReader(streamReader);
-//                StringBuilder stringBuilder = new StringBuilder();
-//
-//                //Check if the line we are reading is not null
-//                while((inputLine = reader.readLine()) != null){
-//                    stringBuilder.append(inputLine);
-//                }
-//                //Close our InputStream and Buffered reader
-//                reader.close();
-//                streamReader.close();
-//                //Set our result equal to our stringBuilder
-//                result = stringBuilder.toString();
-//                JSONObject obj = new JSONObject(result);
-//                JSONArray arrayQtns = obj.getJSONArray("results");
-//                int ik=0;
-//                while (ik<arrayQtns.length()){
-//
-//                    JSONObject details = arrayQtns.getJSONObject(ik);
-//
-//
-//                     questionsList.add(details.getString("question"));
-//                     ArrayList<String> incorrectArr = new ArrayList<String>();
-//                     JSONArray arr = details.getJSONArray("incorrect_answers");
-//                    if (arr != null) {
-//                        for (int i=0;i<arr.length();i++){
-//                            incorrectArr.add(arr.getString(i));
-//                        }
-//                    }
-//
-//                    inCorrectanswers.put("incorrect_answers"+ik,incorrectArr);
-//                    HashMap<String,String> qtnAndAnswer = new HashMap<String, String>();
-//
-//                    qtnAndAnswer.put("question",details.getString("question"));
-//                    qtnAndAnswer.put("correct_answer",details.getString("correct_answer"));
-//                    mylist.add(qtnAndAnswer);
-//
-//                    ik++;
-//                }
-//
-//            }
-//
-//            for (int i=0;i<mylist.size();i++){
-//                Log.d("list",mylist.get(i).get("correct_answer"));
-//            }
-//        }
-//        catch(Exception e){
-//
-//        }
-//
-//
-//        runOnUiThread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                progressStatus=0;
-//                showTimeProgress();
-//
-//                ChangeNextQuestion();
-//
-//            }
-//        });
-//
-//
-//    }
+
 
     private void ChangeNextQuestion(){
 
@@ -581,9 +490,6 @@ public class QuestionsActivity extends AppCompatActivity {
             tapBtn.setEnabled(false);
         }
 
-
-
-
     }
 
     private void resetAllButtonsToGray(){
@@ -610,7 +516,6 @@ public class QuestionsActivity extends AppCompatActivity {
 
     private void setIndicators(){
 
-
         pgBar.setVisibility(View.GONE);
 
         if(isCorrectAnsClicked==true){
@@ -621,8 +526,13 @@ public class QuestionsActivity extends AppCompatActivity {
            // setIndicatorRed();
         }
 
-        if(totalQtnsShown>2){
-            showScore();
+        if(totalQtnsShown>2){ //show the score screen
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showScoreScreen();
+                }
+            },1000);
         }
     }
 
@@ -652,6 +562,12 @@ public class QuestionsActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    private void showScoreScreen(){
+        Intent intent = new Intent(QuestionsActivity.this,ScoreActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void timeOut(){
@@ -727,9 +643,6 @@ public class QuestionsActivity extends AppCompatActivity {
         getDeviceId();
 
         adRequest = new AdRequest.Builder()
-               // .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                // Check the LogCat to get your test device ID
-               // .addTestDevice("BE84A62302821162F7C251AECF1AB3FC")
                 .addTestDevice(deviceId)
                 .build();
         mAdView.loadAd(adRequest);

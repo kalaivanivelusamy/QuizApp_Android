@@ -11,11 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".ScoreActivity"
+            android:label="@string/title_activity_score"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <meta-data
             android:name="com.google.android.gms.ads.ca-app-pub-6507171422391659~4678389761"
-            android:value="true"/>
+            android:value="true" />
 
-        <activity android:name=".CategoryLoadingScreen"></activity>
+        <activity android:name=".CategoryLoadingScreen" />
         <activity
             android:name=".CategoryLoading"
             android:label=""
@@ -31,7 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
