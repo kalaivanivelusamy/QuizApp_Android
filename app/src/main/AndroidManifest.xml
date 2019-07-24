@@ -7,29 +7,32 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/title_bar"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ScoreActivity"
-            android:label="@string/title_activity_score"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_score">
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.ca-app-pub-6507171422391659~4678389761"
             android:value="true" />
+        <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" />
+
 
         <activity android:name=".CategoryLoadingScreen" />
         <activity
             android:name=".CategoryLoading"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="" />
+            <!--android:theme="@style/AppTheme.NoActionBar" />-->
         <activity android:name=".QuestionsActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_bar"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_bar">
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

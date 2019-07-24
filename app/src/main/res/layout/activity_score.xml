@@ -4,13 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00050505"
+    android:orientation="vertical"
     tools:context=".ScoreActivity">
 
-    <Button
-        android:id="@+id/button2"
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <ImageView
+        android:id="@+id/custom_loading_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="328dp"
+        android:layout_height="170dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
         android:layout_weight="1"
-        android:text="Play again" />
+        android:background="@null"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textColor="#3F51B5"
+        android:textSize="28sp"
+        tools:text="@string/s1" />
+
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginBottom="50dp"
+            android:text="Play again" />
+    </LinearLayout>
+
 </LinearLayout>

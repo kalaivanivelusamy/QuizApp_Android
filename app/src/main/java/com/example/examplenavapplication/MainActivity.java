@@ -21,12 +21,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import com.google.android.gms.ads.MobileAds;
+
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         categoryNames.put(9,"General Knowledge");
         categoryNames.put(10,"Entertainment:Books");
@@ -109,17 +115,40 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+    /*
         Toolbar toolbar = findViewById(R.id.my_toolbar);
-        toolbar.setTitle(getString(R.string.title_bar));
+          toolbar.setTitle(getString(R.string.title_bar));
         toolbar.setTitleTextColor(Color.WHITE);
+
         setSupportActionBar(toolbar);
+        */
 
         showRandomCategories();
 
 
        // MobileAds.initialize(this,getString(R.string.admob_app_id));
 
+        checkForUpdates();
+
+
     }
+
+
+    private void checkForCrashes() {
+        CrashManager.register(this);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this);
+    }
+
+    private void unregisterManagers() {
+        UpdateManager.unregister();
+    }
+
+
 
 
     private void highlightSelectedButton(final Button btn){
@@ -214,19 +243,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected  void  onResume(){
         super.onResume();
-        showRandomCategories();
+        checkForCrashes();
         Log.d("Life cycle events","In Resume");
     }
 
     @Override
     protected  void  onPause(){
         super.onPause();
+        unregisterManagers();
         Log.d("Life cycle events","In pause");
     }
 
     @Override
     protected  void  onStop(){
         super.onStop();
+        unregisterManagers();
+
         Log.d("Life cycle events","In stop");
     }
 

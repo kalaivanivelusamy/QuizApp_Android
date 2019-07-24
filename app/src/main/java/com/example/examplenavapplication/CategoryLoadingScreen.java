@@ -39,10 +39,13 @@ public class CategoryLoadingScreen extends AppCompatActivity {
     private AsyncTask someTask;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_category_loading_screen);
+
+
         categoryName= (EditText) findViewById(R.id.editText2);
         title = (EditText)findViewById(R.id.editText);
         pgBar=(ProgressBar)findViewById(R.id.progressBar2);
@@ -86,6 +89,8 @@ public class CategoryLoadingScreen extends AppCompatActivity {
 
 
     }
+
+
 
 
     @Override

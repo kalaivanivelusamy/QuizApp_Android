@@ -6,8 +6,10 @@ import androidx.core.view.ViewCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Html;
@@ -53,25 +55,44 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 
 public class QuestionsActivity extends AppCompatActivity {
 
-    Button button,button2,button3,button4,tapBtn,indicator1Btn,indicator2Btn,indicator3Btn;
+    Button button, button2, button3, button4, tapBtn, indicator1Btn, indicator2Btn, indicator3Btn;
     TextView txtView;
-    ProgressBar pgBar,timeBar;
-    int nextQtn=-1,correctAnsCount=0;
-    Object correctAnsBtnTag=0;
-    Boolean isCorrectAnsClicked=false;
+    ProgressBar pgBar, timeBar;
+    int nextQtn = -1, correctAnsCount = 0;
+    Object correctAnsBtnTag = 0;
+    Boolean isCorrectAnsClicked = false;
     ArrayList<String> questionsList = new ArrayList<String>();
-    String categoryId="10";
-    HashMap<String,ArrayList<String>> inCorrectanswers =new HashMap<String, ArrayList<String>>();
+    String categoryId = "10";
+    HashMap<String, ArrayList<String>> inCorrectanswers = new HashMap<String, ArrayList<String>>();
     ArrayList<HashMap<String, String>> mylist = new ArrayList<>();
-    int progressStatus = 0,totalQtnsShown=0;
+    int progressStatus = 0, totalQtnsShown = 0;
     LinearLayout layout;
     private AdView mAdView;
     AdRequest adRequest;
     String deviceId;
+
+    private InterstitialAd interstitial;
+    public static RewardedVideoAd mRewardedVideoAd;
+    public static AdRequest adIRequest;
+
+    private static QuestionsActivity singleton;
+
+    private boolean runningThread = false;
+
+    TextView questionsRemainingView;
+
+    SharedPreferences pref;
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,20 +101,25 @@ public class QuestionsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_questions);
 
-        layout = (LinearLayout)findViewById(R.id.layout);
+        layout = (LinearLayout) findViewById(R.id.layout);
+
+        enableQtnIndicators();
 
         button = (Button) findViewById(R.id.ansBtn1);
         button2 = (Button) findViewById(R.id.ansBtn2);
         button3 = (Button) findViewById(R.id.ansBtn3);
         button4 = (Button) findViewById(R.id.ansBtn4);
 
-//        indicator1Btn = (Button) findViewById(R.id.indicator1);
-//        indicator2Btn = (Button) findViewById(R.id.indicator2);
-//        indicator3Btn = (Button) findViewById(R.id.indicator3);
+
 
         tapBtn = (Button) findViewById(R.id.buttonTap);
 
         txtView = (TextView) findViewById(R.id.textView);
+
+        pref = getApplicationContext().getSharedPreferences("TotalScore", Context.MODE_PRIVATE);
+
+
+
 
 //        Toolbar toolbar = findViewById(R.id.my_toolbar);
 //        toolbar.setTitle(getString(R.string.title_bar));
@@ -101,27 +127,35 @@ public class QuestionsActivity extends AppCompatActivity {
 
         pgBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        questionsRemainingView = (TextView)findViewById(R.id.scoreView);
+
+        questionsRemainingView.setText("Score:"+Integer.valueOf(pref.getInt("total",0)).toString());
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             categoryId = extras.getString("categoryId");
             mylist = (ArrayList<HashMap<String, String>>) getIntent().getExtras().getSerializable("qtnsList");
-            inCorrectanswers=(HashMap<String,ArrayList<String>>) getIntent().getExtras().getSerializable("incorrectAns");
+            inCorrectanswers = (HashMap<String, ArrayList<String>>) getIntent().getExtras().getSerializable("incorrectAns");
 
         }
 
-        for (int i=0;i<inCorrectanswers.size();i++){
-           ArrayList<String> wrongAns= inCorrectanswers.get("incorrect_answers"+nextQtn);
+        for (int i = 0; i < inCorrectanswers.size(); i++) {
+            ArrayList<String> wrongAns = inCorrectanswers.get("incorrect_answers" + nextQtn);
             Log.d("wrong ans list", String.valueOf(inCorrectanswers.size()));
         }
 
 
         randomQtnNumberGenerator();
 
-       // getAllQuestions();
+        // getAllQuestions();
+
+        //To show first question and time progress for the first question
         ChangeNextQuestion();
+        showTimeProgress();
+
         attachClickListener(tapBtn);
-       // resetAllIndicators();
+        // resetAllIndicators();
 
 //
 
@@ -131,23 +165,20 @@ public class QuestionsActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
 
-                String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
+                String correctAns = mylist.get(nextQtn).get("correct_answer").toString();
                 String chosenAns = button.getText().toString();
 
-                if(correctAns.contentEquals(chosenAns)){
-                    Log.d("Correct answer","Correct");
+                if (correctAns.contentEquals(chosenAns)) {
+                    Log.d("Correct answer", "Correct");
                     button.setBackgroundColor(Color.GREEN);
-                    isCorrectAnsClicked=true;
-                }
-
-                else{
+                    isCorrectAnsClicked = true;
+                } else {
                     button.setBackgroundColor(Color.RED);
-                    isCorrectAnsClicked=false;
+                    isCorrectAnsClicked = false;
                     setCorrectAnsBtn();
                 }
 
-
-
+                runningThread=true;
                 enableDisableAnswers(false);
                 setIndicators();
                 return false;
@@ -160,21 +191,22 @@ public class QuestionsActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
 
-                String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
+                String correctAns = mylist.get(nextQtn).get("correct_answer").toString();
                 String chosenAns = button2.getText().toString();
 
-                if(correctAns.contentEquals(chosenAns)){
-                    Log.d("Correct answer","Correct");
+                if (correctAns.contentEquals(chosenAns)) {
+                    Log.d("Correct answer", "Correct");
                     button2.setBackgroundColor(Color.GREEN);
-                    isCorrectAnsClicked=true;
+                    isCorrectAnsClicked = true;
 
-                }
-                else{
+                } else {
                     button2.setBackgroundColor(Color.RED);
-                    isCorrectAnsClicked=false;
+                    isCorrectAnsClicked = false;
                     setCorrectAnsBtn();
 
                 }
+
+                runningThread=true;
 
                 enableDisableAnswers(false);
                 setIndicators();
@@ -186,22 +218,23 @@ public class QuestionsActivity extends AppCompatActivity {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
+                String correctAns = mylist.get(nextQtn).get("correct_answer").toString();
                 String chosenAns = button3.getText().toString();
 
-                if(correctAns.contentEquals(chosenAns)){
-                    Log.d("Correct answer","Correct");
+                if (correctAns.contentEquals(chosenAns)) {
+                    Log.d("Correct answer", "Correct");
                     button3.setBackgroundColor(Color.GREEN);
-                    isCorrectAnsClicked=true;
+                    isCorrectAnsClicked = true;
 
-                }
-                else{
+                } else {
                     button3.setBackgroundColor(Color.RED);
-                    isCorrectAnsClicked=false;
+                    isCorrectAnsClicked = false;
                     setCorrectAnsBtn();
 
                 }
 
+
+                runningThread=true;
 
                 enableDisableAnswers(false);
                 setIndicators();
@@ -214,19 +247,20 @@ public class QuestionsActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-              String correctAns= mylist.get(nextQtn).get("correct_answer").toString();
-              String chosenAns = button4.getText().toString();
+                String correctAns = mylist.get(nextQtn).get("correct_answer").toString();
+                String chosenAns = button4.getText().toString();
 
-              if(correctAns.contentEquals(chosenAns)){
-                  Log.d("Correct answer","Correct");
-                  button4.setBackgroundColor(Color.GREEN);
-                  isCorrectAnsClicked=true;
-              }
-              else{
-                  button4.setBackgroundColor(Color.RED);
-                  isCorrectAnsClicked=false;
-                  setCorrectAnsBtn();
-              }
+                if (correctAns.contentEquals(chosenAns)) {
+                    Log.d("Correct answer", "Correct");
+                    button4.setBackgroundColor(Color.GREEN);
+                    isCorrectAnsClicked = true;
+                } else {
+                    button4.setBackgroundColor(Color.RED);
+                    isCorrectAnsClicked = false;
+                    setCorrectAnsBtn();
+                }
+
+                runningThread=true;
 
                 enableDisableAnswers(false);
                 setIndicators();
@@ -263,61 +297,86 @@ public class QuestionsActivity extends AppCompatActivity {
             }
         });
 
-       // mAdView.loadAd(adRequest);
+        // mAdView.loadAd(adRequest);
 
 
     }
 
-    private void randomQtnNumberGenerator(){
+
+    private void enableQtnIndicators(){
+
+        indicator1Btn = (Button) findViewById(R.id.indicator1);
+        indicator2Btn = (Button) findViewById(R.id.indicator2);
+        indicator3Btn = (Button) findViewById(R.id.indicator3);
+
+        indicator1Btn.setVisibility(View.VISIBLE);
+        indicator2Btn.setVisibility(View.VISIBLE);
+        indicator3Btn.setVisibility(View.VISIBLE);
+    }
+
+
+    public static QuestionsActivity getInstance() {
+        if (singleton == null) {
+            singleton = new QuestionsActivity();
+        }
+
+        return singleton;
+    }
+
+
+    private void randomQtnNumberGenerator() {
 
         Random r = new Random();
         int i1 = r.nextInt(19 - 0);
-        if ((i1+3)>=mylist.size()){
-            i1 = i1-3;
+        if ((i1 + 3) >= mylist.size()) {
+            i1 = i1 - 3;
         }
         nextQtn = i1;
-        Log.d("random question number",String.valueOf(i1));
+        Log.d("random question number", String.valueOf(i1));
 
     }
 
 
-    private void showTimeProgress(){
+    private void showTimeProgress() {
 
-        Log.d("timer",Integer.valueOf(progressStatus).toString());
-         final Handler handler = new Handler();
+        Log.d("timer", Integer.valueOf(progressStatus).toString());
+        final Handler handler = new Handler();
 
-        new Thread(new Runnable() {
+        if(!runningThread) {
+            new Thread(new Runnable() {
 
-            public void run() {
-                if(progressStatus>=100){
-                    Log.d("inside 100","100");
-                    enableDisableAnswers(false);
-                    timeOut();
-                }
-                while (progressStatus < 100) {
-                    progressStatus += 1.5;
-                    // Update the progress bar and display the
-                    //current value in the text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            pgBar.setProgress(progressStatus);
+                public void run() {
+//                if (progressStatus >= 100) {
+//                    Log.d("inside 100", "100");
+//                    enableDisableAnswers(false);
+//                    timeOut();
+//                }
+                    while (progressStatus < 100) {
+                        progressStatus += 1.5;
+                        // Update the progress bar and display the
+                        //current value in the text view
+                        handler.post(new Runnable() {
+                            public void run() {
+                                pgBar.setProgress(progressStatus);
+                            }
+                        });
+                        try {
+                            // Sleep for 200 milliseconds.
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+
+                    }
+                    if (progressStatus >= 100) {
+                        timeOut();
+
+                        // enableDisableAnswers(false);
                     }
 
                 }
-                if(progressStatus>=100){
-                    timeOut();
-                    // enableDisableAnswers(false);
-                }
-
-            }
-        }).start();
+            }).start();
+        }
     }
 
     @Override
@@ -330,7 +389,7 @@ public class QuestionsActivity extends AppCompatActivity {
 
             alertDialog.setPositiveButton("Play", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                   reStartGame();
+                    reStartGame();
                 }
             });
 
@@ -346,58 +405,61 @@ public class QuestionsActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void quitTheGame(){
+    private void quitTheGame() {
 
         this.finishAffinity();
     }
 
 
-    private void resetAllIndicators(){
+    private void resetAllIndicators() {
 
         indicator1Btn.setBackgroundColor(Color.TRANSPARENT);
         indicator2Btn.setBackgroundColor(Color.TRANSPARENT);
         indicator3Btn.setBackgroundColor(Color.TRANSPARENT);
     }
 
-    private void setIndicatorGreen(){
-        if (nextQtn==0){
+    private void setIndicatorGreen() {
+        Log.d("correct ans indicator",Integer.valueOf(nextQtn).toString());
+        int buttonTag = totalQtnsShown -1;
+        if (buttonTag == 0) {
             indicator1Btn.setBackgroundColor(Color.GREEN);
-        }
-        else if (nextQtn==1){
+        } else if (buttonTag == 1) {
             indicator2Btn.setBackgroundColor(Color.GREEN);
-        }
-        else if (nextQtn==2){
+        } else if (buttonTag == 2) {
             indicator3Btn.setBackgroundColor(Color.GREEN);
         }
 
     }
 
-    private void setIndicatorRed(){
-        if (nextQtn==0){
+    private void setIndicatorRed() {
+
+        Log.d("Wrong ans indicator",Integer.valueOf(nextQtn).toString());
+
+        int buttonTag = totalQtnsShown -1;
+
+        if (buttonTag == 0) {
             indicator1Btn.setBackgroundColor(Color.RED);
-        }
-        else if (nextQtn==1){
+        } else if (buttonTag == 1) {
             indicator2Btn.setBackgroundColor(Color.RED);
-        }
-        else if (nextQtn==2){
+        } else if (buttonTag == 2) {
             indicator3Btn.setBackgroundColor(Color.RED);
         }
 
     }
 
-    private void setCorrectAnsBtn(){
+    private void setCorrectAnsBtn() {
 
 
-        if(Integer.parseInt(correctAnsBtnTag.toString())==0){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 0) {
             button.setBackgroundColor(Color.GREEN);
         }
-        if(Integer.parseInt(correctAnsBtnTag.toString())==1){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 1) {
             button2.setBackgroundColor(Color.GREEN);
         }
-        if(Integer.parseInt(correctAnsBtnTag.toString())==2){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 2) {
             button3.setBackgroundColor(Color.GREEN);
         }
-        if(Integer.parseInt(correctAnsBtnTag.toString())==3){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 3) {
             button4.setBackgroundColor(Color.GREEN);
         }
 
@@ -405,9 +467,7 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
 
-
-    private void enableDisableAnswers(Boolean isEnabled)
-    {
+    private void enableDisableAnswers(Boolean isEnabled) {
         button.setEnabled(isEnabled);
         button2.setEnabled(isEnabled);
         button3.setEnabled(isEnabled);
@@ -416,27 +476,27 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
 
-
-    private void ChangeNextQuestion(){
+    private void ChangeNextQuestion() {
 
 
         enableDisableAnswers(true);
         layout.setAlpha(1.0f);
         tapBtn.setEnabled(true);
-        nextQtn++;totalQtnsShown++;
+        nextQtn++;
+        totalQtnsShown++;
 
         Random r = new Random();
         int i1 = r.nextInt(4 - 0) + 0;
 
-        Log.d("random number",String.valueOf(i1));
+        Log.d("random number", String.valueOf(i1));
         String qtn = mylist.get(nextQtn).get("question").toString();
         txtView.setText(Html.fromHtml(qtn));
-       // txtView.setText(mylist.get(nextQtn).get("question"));
-        ArrayList wrongAns = inCorrectanswers.get("incorrect_answers"+nextQtn);
-        Log.d("Wrong ans",wrongAns.get(0).toString());
+        // txtView.setText(mylist.get(nextQtn).get("question"));
+        ArrayList wrongAns = inCorrectanswers.get("incorrect_answers" + nextQtn);
+        Log.d("Wrong ans", wrongAns.get(0).toString());
 
-        if(i1==0){
-           // button.setText(mylist.get(nextQtn).get("correct_answer").toString());
+        if (i1 == 0) {
+            // button.setText(mylist.get(nextQtn).get("correct_answer").toString());
             String ans = mylist.get(nextQtn).get("correct_answer").toString();
             correctAnsBtnTag = button.getTag();
 
@@ -447,7 +507,7 @@ public class QuestionsActivity extends AppCompatActivity {
             button4.setText(wrongAns.get(2).toString());
         }
 
-        if(i1==1){
+        if (i1 == 1) {
             //button2.setText(mylist.get(nextQtn).get("correct_answer").toString());
             String ans = mylist.get(nextQtn).get("correct_answer").toString();
 
@@ -459,8 +519,8 @@ public class QuestionsActivity extends AppCompatActivity {
             button4.setText(wrongAns.get(2).toString());
         }
 
-        if(i1==2){
-           // button3.setText(mylist.get(nextQtn).get("correct_answer").toString());
+        if (i1 == 2) {
+            // button3.setText(mylist.get(nextQtn).get("correct_answer").toString());
             correctAnsBtnTag = button3.getTag();
             String ans = mylist.get(nextQtn).get("correct_answer").toString();
             button3.setText(Html.fromHtml(ans));
@@ -469,8 +529,8 @@ public class QuestionsActivity extends AppCompatActivity {
             button.setText(wrongAns.get(1).toString());
             button4.setText(wrongAns.get(2).toString());
         }
-        if(i1==3){
-           // button4.setText(mylist.get(nextQtn).get("correct_answer").toString());
+        if (i1 == 3) {
+            // button4.setText(mylist.get(nextQtn).get("correct_answer").toString());
             correctAnsBtnTag = button4.getTag();
             String ans = mylist.get(nextQtn).get("correct_answer").toString();
             button4.setText(Html.fromHtml(ans));
@@ -485,62 +545,73 @@ public class QuestionsActivity extends AppCompatActivity {
         button3.setTextColor(Color.BLACK);
         button4.setTextColor(Color.BLACK);
 
-        if(totalQtnsShown>2){
-            //nextQtn=-1;
-            tapBtn.setEnabled(false);
-        }
+//        if (totalQtnsShown > 2) {
+//            //nextQtn=-1;
+//            tapBtn.setEnabled(false);
+//        }
 
     }
 
-    private void resetAllButtonsToGray(){
+    private void resetAllButtonsToGray() {
         button4.setBackgroundColor(Color.GRAY);
         button2.setBackgroundColor(Color.GRAY);
         button3.setBackgroundColor(Color.GRAY);
         button.setBackgroundColor(Color.GRAY);
     }
 
-    private void attachClickListener(final Button btn){
+    private void attachClickListener(final Button btn) {
 
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ChangeNextQuestion();
-                progressStatus=0;
+                progressStatus = 0;
+                runningThread=false;
                 showTimeProgress();
                 pgBar.setVisibility(View.VISIBLE);
-
                 resetAllButtonsToGray();
+                if(totalQtnsShown>3) {
+                    showAdBeforeScore();
+                }
+                else{
+                    ChangeNextQuestion();
+
+                }
             }
         });
     }
 
 
-    private void setIndicators(){
+    private void setIndicators() {
 
         pgBar.setVisibility(View.GONE);
 
-        if(isCorrectAnsClicked==true){
-           // setIndicatorGreen();
+        if (isCorrectAnsClicked == true) {
+             setIndicatorGreen();
             correctAnsCount++;
-        }
-        else{
-           // setIndicatorRed();
+        } else {
+             setIndicatorRed();
         }
 
-        if(totalQtnsShown>2){ //show the score screen
+        showAdBeforeScore();
+    }
+
+    private  void showAdBeforeScore(){
+
+        if (totalQtnsShown > 2) { //show the score screen
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     showScoreScreen();
                 }
-            },1000);
+            }, 100);
         }
+
     }
 
-    private void showScore(){
+    private void showScore() {
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(QuestionsActivity.this);
         alertDialog.setTitle("Score");
-        alertDialog.setMessage("You have scored: "+correctAnsCount);
+        alertDialog.setMessage("You have scored: " + correctAnsCount);
 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -557,27 +628,33 @@ public class QuestionsActivity extends AppCompatActivity {
 //        reStartGame();
 //    }
 
-    private void reStartGame(){
-        Intent intent = new Intent(QuestionsActivity.this,MainActivity.class);
+    private void reStartGame() {
+        Intent intent = new Intent(QuestionsActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
 
     }
 
-    private void showScoreScreen(){
-        Intent intent = new Intent(QuestionsActivity.this,ScoreActivity.class);
+    private void showScoreScreen() {
+        Log.d("msg in qtn screen", Integer.toString(correctAnsCount));
+
+        createAd();
+
+        Intent intent = new Intent(QuestionsActivity.this, ScoreActivity.class);
+        intent.putExtra("score", correctAnsCount);
         startActivity(intent);
         finish();
     }
 
-    private void timeOut(){
+    private void timeOut() {
 
         runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
                 enableDisableAnswers(false);
-                layout.setAlpha(0.5f);
+               // layout.setAlpha(0.5f);
+                tapBtn.setAlpha(1.0f);
                 tapBtn.setEnabled(true);
                 showCorrectAnswer();
 
@@ -586,29 +663,29 @@ public class QuestionsActivity extends AppCompatActivity {
 
     }
 
-    private void showCorrectAnswer(){
+    private void showCorrectAnswer() {
 
-        if(Integer.parseInt(correctAnsBtnTag.toString())==0){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 0) {
             button.setBackgroundColor(Color.GREEN);
         }
-        if(Integer.parseInt(correctAnsBtnTag.toString())==1){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 1) {
             button2.setBackgroundColor(Color.GREEN);
         }
-        if(Integer.parseInt(correctAnsBtnTag.toString())==2){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 2) {
             button3.setBackgroundColor(Color.GREEN);
         }
-        if(Integer.parseInt(correctAnsBtnTag.toString())==3){
+        if (Integer.parseInt(correctAnsBtnTag.toString()) == 3) {
             button4.setBackgroundColor(Color.GREEN);
         }
 
     }
 
 
-    private void getDeviceId(){
+    private void getDeviceId() {
 
         String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-         deviceId = md5(android_id).toUpperCase();
-        Log.i("device id=",deviceId);
+        deviceId = md5(android_id).toUpperCase();
+        Log.i("device id=", deviceId);
 
 
     }
@@ -632,12 +709,12 @@ public class QuestionsActivity extends AppCompatActivity {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            Log.d("Error",e.toString());
+            Log.d("Error", e.toString());
         }
         return "";
     }
 
-    private void  showAd() {
+    private void showAd() {
 
         mAdView = (AdView) findViewById(R.id.adView);
         getDeviceId();
@@ -648,16 +725,35 @@ public class QuestionsActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
 
-//        for(int i=0;i<1000;i++) {
-//            AdRequest adRequest = new AdRequest
-//                    .Builder()
-//                    .addTestDevice("BE84A62302821162F7C251AECF1AB3FC")
-//                    .build();
-//                mAdView.loadAd(adRequest);
-//        }
 
     }
 
+
+    public  void  createAd(){
+
+        MobileAds.initialize(this, getString(R.string.admob_app_id));
+        adIRequest = new AdRequest.Builder().build();
+
+
+
+
+        /*** Reward Video ****/
+
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+
+        mRewardedVideoAd.loadAd(getString(R.string.rewardAd), adIRequest);
+
+
+    }
+
+
+    public static RewardedVideoAd getAd(){
+
+        Log.d("Reward video",mRewardedVideoAd.isLoaded()?"True":"false");
+
+        return  mRewardedVideoAd;
+
+    }
 
 
 }

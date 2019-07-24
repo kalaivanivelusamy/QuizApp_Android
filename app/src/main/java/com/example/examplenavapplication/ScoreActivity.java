@@ -1,8 +1,10 @@
 package com.example.examplenavapplication;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.gms.ads.MobileAds;
@@ -14,10 +16,13 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
@@ -30,53 +35,63 @@ import com.google.android.gms.ads.reward.RewardedVideoAd;
 public class ScoreActivity extends AppCompatActivity {
 
     Button btn;
+    TextView scoreText;
     private InterstitialAd interstitial;
     private RewardedVideoAd mRewardedVideoAd;
+    AdRequest adIRequest;
+   // String correctAnswerCount;
+    ViewDialog viewdialog;
+    int scored=0;
+
+    SharedPreferences pref;
+
+    Button indicator1Btn,indicator2Btn,indicator3Btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
-        btn = (Button)findViewById(R.id.button2);
 
-        btn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                showAlert();
-                return false;
-            }
-        });
+       // disableQthIndicators();
+
+        viewdialog = new ViewDialog(this);
+
+        btn = (Button)findViewById(R.id.button3);
+        scoreText  =(TextView)findViewById(R.id.editText3);
+      //  scoreText.setText("test score");
+
+        btn.setVisibility(View.INVISIBLE);
+        scoreText.setVisibility(View.INVISIBLE);
+
+        //showCustomLoadingDialog();
+
+        pref = getApplicationContext().getSharedPreferences("TotalScore",Context.MODE_PRIVATE);
+
+        QuestionsActivity adManager = QuestionsActivity.getInstance();
+        mRewardedVideoAd=adManager.getAd();
+
+        Bundle extras = getIntent().getExtras();
+        scored = getIntent().getIntExtra("score",0);
+        Log.d("msg",Integer.toString(scored));
+
+
+
+
+
+       // showInterstitialAds();
+
+        /*
 
         MobileAds.initialize(this, getString(R.string.admob_app_id));
-        AdRequest adIRequest = new AdRequest.Builder().build();
-
-        // Prepare the Interstitial Ad Activity
-        interstitial = new InterstitialAd(ScoreActivity.this);
-
-        // Insert the Ad Unit ID
-        interstitial.setAdUnitId(getString(R.string.interstitialAd));
-
-        // Interstitial Ad load Request
-        interstitial.loadAd(adIRequest);
-
-        // Prepare an Interstitial Ad Listener
-//        interstitial.setAdListener(new AdListener() {
-//            public void onAdLoaded() {
-//                // Call displayInterstitial() function when the Ad loads
-//                displayInterstitial();
-//            }
-//        });
-
-
-
-
-        /*** Reward Video ****/
+        adIRequest = new AdRequest.Builder().build();
 
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
 
        mRewardedVideoAd.loadAd(getString(R.string.rewardAd), new AdRequest.Builder().build());
-        /*getString(R.string.rewardAd*/
+
+        */
+
 
 
         mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
@@ -84,6 +99,7 @@ public class ScoreActivity extends AppCompatActivity {
             public void onRewardedVideoAdLoaded() {
                 Toast.makeText(getBaseContext(),
                         "Ad loaded.", Toast.LENGTH_SHORT).show();
+
                 if (mRewardedVideoAd.isLoaded()) {
                     mRewardedVideoAd.show();
                 }
@@ -106,14 +122,18 @@ public class ScoreActivity extends AppCompatActivity {
             public void onRewardedVideoAdClosed() {
                 Toast.makeText(getBaseContext(),
                         "Ad closed.", Toast.LENGTH_SHORT).show();
+                //scored = scored + 1+pref.getInt("total",0);;
 
+                showScoreUI();
             }
 
             @Override
             public void onRewarded(RewardItem rewardItem) {
                 Toast.makeText(getBaseContext(),
                         Integer.toString(rewardItem.getAmount()), Toast.LENGTH_SHORT).show();
-                addScore(rewardItem.getAmount());
+                scored = scored + rewardItem.getAmount()+pref.getInt("total",0);;
+               // showScoreUI();
+                //runOnMainThread();
             }
 
             @Override
@@ -131,12 +151,78 @@ public class ScoreActivity extends AppCompatActivity {
             @Override
             public void onRewardedVideoCompleted() {
 
+                Toast.makeText(getBaseContext(),
+                        "Ad completed.", Toast.LENGTH_SHORT).show();
+                //scored = scored + 1+pref.getInt("total",0);;
+
+               // showScoreUI();
+                //runOnMainThread();
+
             }
+
+
         });
 
 
 
 
+    }
+
+//    private void disableQthIndicators(){
+//
+//        indicator1Btn = (Button) findViewById(R.id.indicator1);
+//        indicator2Btn = (Button) findViewById(R.id.indicator2);
+//        indicator3Btn = (Button) findViewById(R.id.indicator3);
+//
+//        indicator1Btn.setVisibility(View.INVISIBLE);
+//        indicator2Btn.setVisibility(View.INVISIBLE);
+//        indicator3Btn.setVisibility(View.INVISIBLE);
+//
+//    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            quitTheGame();
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
+
+
+    private void showScoreUI(){
+
+        btn.setVisibility(View.VISIBLE);
+        scoreText.setVisibility(View.VISIBLE);
+
+        Log.d("fetch from pref score",Integer.valueOf(pref.getInt("total",0)).toString());
+
+        storeTotalScore();
+        scoreText.setText("Total score:\t "+ Integer.toString(scored));
+
+
+                btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                reStartGame();
+                return false;
+            }
+        });
+    }
+
+    private void  showCustomLoadingDialog(){
+
+        viewdialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                viewdialog.hideDialog();
+            }
+        }, 7000);
     }
 
 
@@ -146,6 +232,27 @@ public class ScoreActivity extends AppCompatActivity {
         if (interstitial.isLoaded()) {
             interstitial.show();
         }
+    }
+
+    private void showInterstitialAds(){
+
+        // Prepare the Interstitial Ad Activity
+        interstitial = new InterstitialAd(ScoreActivity.this);
+
+        // Insert the Ad Unit ID
+        interstitial.setAdUnitId(getString(R.string.interstitialAd));
+
+        // Interstitial Ad load Request
+        interstitial.loadAd(adIRequest);
+
+        // Prepare an Interstitial Ad Listener
+        interstitial.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                // Call displayInterstitial() function when the Ad loads
+                displayInterstitial();
+            }
+        });
+
     }
 
 
@@ -171,11 +278,7 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
 
-    // Add score method
-    private void addScore(int amt)
-    {
-        Log.d("Score of the game",Integer.toString(amt));
-    }
+
 
     private void showAlert(){
 
@@ -204,9 +307,22 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     private void reStartGame(){
+
         Intent intent = new Intent(ScoreActivity.this,MainActivity.class);
         startActivity(intent);
         finish();
+
+    }
+
+    private void storeTotalScore(){
+
+        pref = getApplicationContext().getSharedPreferences("TotalScore",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("total",scored);
+        editor.apply();
+
+        Log.d("shared pred game",Integer.valueOf(pref.getInt("total",0)).toString());
+
 
     }
 }
