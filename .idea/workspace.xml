@@ -8,66 +8,8 @@
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
-  <component name="AvailableLibraryUpdateStorage">
-    <library-updates>
-      <library-update>
-        <group-id>androidx.test.espresso</group-id>
-        <name>espresso-core</name>
-        <version>3.3.0-alpha02</version>
-        <repository>Google</repository>
-      </library-update>
-      <library-update>
-        <group-id>androidx.test</group-id>
-        <name>runner</name>
-        <version>1.3.0-alpha02</version>
-        <repository>Google</repository>
-      </library-update>
-      <library-update>
-        <group-id>com.google.android.gms</group-id>
-        <name>play-services-ads</name>
-        <version>18.1.0</version>
-        <repository>Google</repository>
-      </library-update>
-      <library-update>
-        <group-id>com.google.android.material</group-id>
-        <name>material</name>
-        <version>1.1.0-alpha08</version>
-        <repository>Google</repository>
-      </library-update>
-      <library-update>
-        <group-id>com.github.bumptech.glide</group-id>
-        <name>glide</name>
-        <version>4.9.0</version>
-        <repository>JCenter</repository>
-      </library-update>
-      <library-update>
-        <group-id>androidx.constraintlayout</group-id>
-        <name>constraintlayout</name>
-        <version>2.0.0-beta2</version>
-        <repository>Google</repository>
-      </library-update>
-      <library-update>
-        <group-id>junit</group-id>
-        <name>junit</name>
-        <version>4.13-beta-3</version>
-        <repository>JCenter</repository>
-      </library-update>
-      <library-update>
-        <group-id>androidx.appcompat</group-id>
-        <name>appcompat</name>
-        <version>1.1.0-rc01</version>
-        <repository>Google</repository>
-      </library-update>
-    </library-updates>
-    <last-search-timestamp>1563886949244</last-search-timestamp>
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c94a97e-a7e6-487d-bdaf-fd1afceda501" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bumptech_glide_glide_3_7_0_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_hockeyapp_android_HockeySDK_5_2_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ViewDialog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/qtnscoreindicator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml" afterDir="false" />
+    <list default="true" id="6f792045-a3db-4987-b70c-e804bcce3901" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -77,23 +19,27 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/example/examplenavapplication/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/quizapp/examplenavapplication/ExampleInstrumentedTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoadingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoadingScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/QuestionsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/QuestionsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ScoreActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ScoreActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_category_loading_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_category_loading_screen.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoading.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/CategoryLoading.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoadingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/CategoryLoadingScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/QuestionsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/QuestionsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ScoreActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/ScoreActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ViewDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/ViewDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_questions.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_questions.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_score.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_score.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/example/examplenavapplication/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/com/quizapp/examplenavapplication/ExampleUnitTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -108,124 +54,130 @@
       </state>
     </system>
   </component>
-  <component name="FavoritesManager">
-    <favorites_list name="QuizApp_Android" />
-  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/PrivacyPolicyActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+            <state relative-caret-position="90">
+              <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ScoreActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_privacy_policy.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="296" column="27" selection-start-line="296" selection-start-column="16" selection-end-line="296" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="345">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/CategoryLoadingScreen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="65">
+              <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="23" selection-start-line="23" selection-end-line="23" />
-            </state>
-          </provider>
+          <provider selected="true" editor-type-id="text-editor" />
           <provider editor-type-id="android-manifest" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoadingScreen.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="103" column="5" selection-start-line="95" selection-start-column="3" selection-end-line="103" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="180">
+              <caret line="12" column="46" selection-start-line="1" selection-end-line="12" selection-end-column="46" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_questions.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" selection-start-line="2" selection-end-line="10" selection-end-column="39" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
+            <state relative-caret-position="120">
+              <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
             </state>
           </provider>
+          <provider editor-type-id="android-designer2" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/MainActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_privacy_policy.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1969">
-              <caret line="260" selection-start-line="260" selection-end-line="260" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4143#4144#0" expanded="true" />
-                <element signature="e#4186#4187#0" expanded="true" />
-                <element signature="e#4350#4351#0" expanded="true" />
-                <element signature="e#4392#4393#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="330">
+              <caret line="22" selection-start-line="13" selection-start-column="3" selection-end-line="22" />
             </state>
           </provider>
+          <provider editor-type-id="android-designer2" />
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>showAdBeforeScore</find>
-      <find>tapbtn</find>
-      <find>tapbtn.</find>
-      <find>enabledisablean</find>
-      <find>showa</find>
-      <find>runningThread</find>
-      <find>too</find>
-      <find>textv</find>
-      <find>txtview</find>
-      <find>settextco</find>
-      <find>setSupportActionBar(toolbar);</find>
-      <find>toolbar</find>
-      <find>setSupportActionBar</find>
+      <find>ono</find>
+      <find>oncrea</find>
+      <find>thread</find>
+      <find>progressStatus</find>
+      <find>ChangeNextQues</find>
       <find>ChangeNextQuestion</find>
-      <find>setIndicatorGreen</find>
-      <find>setIndicators</find>
-      <find>setIndicatorRed</find>
-      <find>indicator1Btn</find>
-      <find>randomQtnNumberGenerator</find>
-      <find>nextQtn</find>
-      <find>setindicators</find>
-      <find>setindicatorgre</find>
-      <find>score</find>
-      <find>pref</find>
-      <find>change</find>
-      <find>enableQtnIndicators</find>
-      <find>back</find>
-      <find>quitTheGame</find>
-      <find>on</find>
-      <find>res</find>
+      <find>showTimeProgress</find>
+      <find>showCustomLoadingDialog</find>
+      <find>showscore</find>
+      <find>showScoreScreen</find>
+      <find>showAdBeforeScore</find>
+      <find>attachClickListener</find>
+      <find>totalQtnsShown</find>
+      <find>reStartGame</find>
+      <find>restart</find>
+      <find>scored</find>
+      <find>PRIVAC</find>
+      <find>app</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
-    <option name="BUILD_TARGET_KEY" value="apk" />
+    <option name="EXPORT_PRIVATE_KEY" value="false" />
+    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../KeyStoreAndroid/Keystore" />
+    <option name="KEY_ALIAS" value="key0" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -233,38 +185,26 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/circular_progress_bar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/circle_shape.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoading.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_category_loading.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_score.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ViewDialog.java" />
-        <option value="$PROJECT_DIR$/gradle.properties" />
-        <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_category_loading_screen.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/QuestionsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_questions.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_score.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoadingScreen.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/qtnscoreindicator.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ScoreActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/PrivacyPolicyActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_score.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/QuestionsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/ScoreActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_privacy_policy.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_privacy_policy.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+    <option name="x" value="40" />
+    <option name="y" value="66" />
     <option name="width" value="1400" />
     <option name="height" value="772" />
-  </component>
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -273,6 +213,7 @@
     <panes>
       <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -287,28 +228,36 @@
             </path>
             <path>
               <item name="QuizApp_Android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="QuizApp_Android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="QuizApp_Android" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
+    <property name="ExportApk.BuildVariants" value="release" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="device.picker.selection" value="ZY3227ZL8W" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Dependencies" />
-    <property name="project.structure.proportion" value="0.17" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.packageName">
-      <recent name="com.example.examplenavapplication" />
+      <recent name="com.quizapp.examplenavapplication" />
     </key>
     <key name="android.template.parentActivityClass">
       <recent name="" />
@@ -388,244 +337,188 @@
       </method>
     </configuration>
   </component>
-  <component name="StructureViewFactory">
-    <option name="ACTIVE_ACTIONS" value=",VISIBILITY_SORTER,ALPHA_COMPARATOR,SHOW_FIELDS" />
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3c94a97e-a7e6-487d-bdaf-fd1afceda501" name="Default Changelist" comment="" />
-      <created>1561090902823</created>
+      <changelist id="6f792045-a3db-4987-b70c-e804bcce3901" name="Default Changelist" comment="" />
+      <created>1563967317808</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1561090902823</updated>
+      <updated>1563967317808</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1400" height="772" extended-state="0" />
+    <frame x="40" y="66" width="1400" height="772" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Captures" order="0" sideWeight="0.3222749" side_tool="true" weight="0.3298969" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.71363634" visible="true" weight="0.3298969" />
-      <window_info id="Favorites" order="2" sideWeight="0.50147057" side_tool="true" weight="0.3298969" />
-      <window_info id="Structure" order="3" sideWeight="0.28636363" side_tool="true" weight="0.3298969" />
-      <window_info id="Build Variants" order="4" sideWeight="0.5017422" side_tool="true" weight="0.3298969" />
-      <window_info id="Image Layers" order="5" />
-      <window_info id="Designer" order="6" />
-      <window_info id="Resources Explorer" order="7" sideWeight="0.49545455" weight="0.3298969" />
+      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3298969" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Build Variants" order="3" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="Designer" order="5" />
+      <window_info id="Resources Explorer" order="6" />
+      <window_info x="632" y="205" width="149" height="407" id="Component Tree" order="7" type="FLOATING" />
       <window_info id="Capture Tool" order="8" />
-      <window_info x="625" y="172" width="213" height="194" id="Component Tree" order="9" type="FLOATING" />
-      <window_info anchor="bottom" id="Run" order="0" weight="0.32941177" />
-      <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.4992636" weight="0.3882353" />
+      <window_info id="Favorites" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Run" order="0" />
+      <window_info anchor="bottom" id="Logcat" order="1" weight="0.32941177" />
       <window_info anchor="bottom" id="TODO" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" />
-      <window_info anchor="bottom" id="Terminal" order="4" weight="0.32941177" />
-      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.50073636" side_tool="true" weight="0.3529412" />
-      <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.33382353" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" />
-      <window_info anchor="bottom" id="Find" order="9" weight="0.32941177" />
+      <window_info anchor="bottom" id="Version Control" order="3" />
+      <window_info anchor="bottom" id="Debug" order="4" />
+      <window_info anchor="bottom" id="Terminal" order="5" />
+      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.32941177" />
+      <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Preview" order="5" />
+      <window_info anchor="right" id="Preview" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
     </layout>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/MainActivity.java</url>
+          <line>298</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/MainActivity.java</url>
+          <line>286</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_action_name.png" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_category_loading.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/circular_progress_bar.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/circle_shape.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoading.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="15" column="28" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="135">
+          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_score.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/ScoreActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_score.xml">
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="42" lean-forward="true" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+        <state relative-caret-position="930">
+          <caret line="62" column="44" selection-start-line="62" selection-start-column="44" selection-end-line="62" selection-end-column="44" />
         </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi/loading.gif">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ViewDialog.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/ViewDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
+        <state relative-caret-position="15">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/QuestionsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8025">
+          <caret line="582" column="38" selection-start-line="582" selection-start-column="38" selection-end-line="582" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2925">
+          <caret line="201" column="28" selection-start-line="201" selection-start-column="19" selection-end-line="201" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-29/android.jar!/android/view/View.class">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/PrivacyPolicyActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="1596" column="16" selection-start-line="1596" selection-start-column="16" selection-end-line="1596" selection-end-column="16" />
+        <state relative-caret-position="90">
+          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_privacy_policy.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="27" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="46" selection-start-line="9" selection-start-column="4" selection-end-line="12" selection-end-column="46" />
+        <state relative-caret-position="345">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/QuestionsActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="105" column="30" selection-start-line="105" selection-start-column="30" selection-end-line="105" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_category_loading_screen.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" selection-start-line="9" selection-start-column="4" selection-end-line="13" />
+        <state relative-caret-position="180">
+          <caret line="12" column="46" selection-start-line="1" selection-end-line="12" selection-end-column="46" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_questions.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="10" selection-end-column="39" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="36" column="37" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
-          <folding>
-            <element signature="e#1470#1489#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="465">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/qtnscoreindicator.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="74" column="36" selection-start-line="74" selection-start-column="36" selection-end-line="74" selection-end-column="36" />
-          <folding>
-            <element signature="e#1500#1519#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="120">
+          <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_privacy_policy.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="2" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/CategoryLoadingScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="103" column="5" selection-start-line="95" selection-start-column="3" selection-end-line="103" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_score.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="13" selection-start-column="3" selection-end-line="22" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/ScoreActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/quizapp/examplenavapplication/CategoryLoadingScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="296" column="27" selection-start-line="296" selection-start-column="16" selection-end-line="296" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/examplenavapplication/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1969">
-          <caret line="260" selection-start-line="260" selection-end-line="260" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4143#4144#0" expanded="true" />
-            <element signature="e#4186#4187#0" expanded="true" />
-            <element signature="e#4350#4351#0" expanded="true" />
-            <element signature="e#4392#4393#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="65">
+          <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
       <provider editor-type-id="android-manifest" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+        <state relative-caret-position="180">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>

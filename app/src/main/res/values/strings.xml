@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">ExampleNavApplication</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">QuizApp</string>
+    <string name="action_settings">Privacy</string>
     <string name="title_bar">Quiz</string>
     <string name="title_Category"><u>Category</u></string>
     <string name="admob_app_id">ca-app-pub-6507171422391659~4678389761</string>
     <string name="banner_home_footer">ca-app-pub-6507171422391659/8000108558</string>
     <string name="interstitialAd">ca-app-pub-6507171422391659/4788938503</string>
     <string name="rewardAd">ca-app-pub-6507171422391659/1168477446</string>
-
     <string name="title_activity_score">ScoreActivity</string>
+    <string name="title_activity_privacy_policy">PrivacyPolicyActivity</string>
 </resources>
